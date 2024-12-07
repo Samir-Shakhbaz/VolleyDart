@@ -1,0 +1,22 @@
+import 'package:flutter/material.dart';
+
+// Global list of events
+List<Map<String, String>> globalEvents = [
+  {"name": "Beach Volleyball Tournament", "location": "Los Angeles", "surface": "Sand", "teamSize": "2", "skillLevel": "5", "gender": "Coed"},
+  {"name": "Grass League", "location": "Chicago", "surface": "Grass", "teamSize": "6", "skillLevel": "7", "gender": "Male"},
+  {"name": "Indoor Pro Challenge", "location": "New York", "surface": "Indoor", "teamSize": "4", "skillLevel": "10", "gender": "Female"},
+  {"name": "UNC Volleyball Invitational", "location": "Charlotte, NC", "surface": "Indoor", "teamSize": "6", "skillLevel": "8", "gender": "Coed"},
+  {"name": "Gamecock Volleyball Championship", "location": "Columbia, SC", "surface": "Indoor", "teamSize": "4", "skillLevel": "7", "gender": "Female"},
+  {"name": "Northlake Winter League", "location": "Charlotte, NC", "surface": "Indoor", "teamSize": "2", "skillLevel": "6", "gender": "Male"},
+  {"name": "Sand Blast", "location": "Charlotte, NC", "surface": "Sand", "teamSize": "3", "skillLevel": "5", "gender": "Other"},
+  {"name": "Beach Tournament", "location": "Belmont, NC", "surface": "Sand", "teamSize": "2", "skillLevel": "4", "gender": "Coed"},
+  {"name": "Chaos Indoor Cup", "location": "Concord, NC", "surface": "Indoor", "teamSize": "3", "skillLevel": "7", "gender": "Female"},
+  {"name": "Abbey's Invitational", "location": "Charlotte, NC", "surface": "Indoor", "teamSize": "4", "skillLevel": "5", "gender": "Male"},
+  {"name": "Sports Connection Challenge", "location": "Charlotte, NC", "surface": "Indoor", "teamSize": "5", "skillLevel": "8", "gender": "Coed"},
+  {"name": "Alexander Park Open", "location": "Charlotte, NC", "surface": "Outdoor", "teamSize": "2", "skillLevel": "6", "gender": "Other"},
+  {"name": "Beatty Outdoor League", "location": "Charlotte, NC", "surface": "Outdoor", "teamSize": "3", "skillLevel": "7", "gender": "Female"},
+  {"name": "Freedom Outdoor Challenge", "location": "Charlotte, NC", "surface": "Outdoor", "teamSize": "4", "skillLevel": "9", "gender": "Male"},
+  {"name": "Hornets Nest Sand Bash", "location": "Charlotte, NC", "surface": "Outdoor", "teamSize": "2", "skillLevel": "5", "gender": "Coed"},
+  {"name": "New Event", "location": "New Location", "surface": "Sand", "teamSize": "4", "skillLevel": "3", "gender": "Male"},
+  {"name": "My Event", "location": "Fort Mill", "surface": "Sand", "teamSize": "6", "skillLevel": "5", "gender": "Coed"},
+];
