@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 
 class UserDashboard extends StatelessWidget {
@@ -35,15 +37,15 @@ class UserDashboard extends StatelessWidget {
             Center(
               child: CircleAvatar(
                 radius: 50,
-                backgroundImage: profilePicture != null
-                    ? NetworkImage(profilePicture!)
-                    : const AssetImage('assets/default_profile.png')
-                as ImageProvider,
-                child: profilePicture == null
-                    ? const Icon(Icons.person, size: 50)
+                backgroundImage: profilePicture != null && profilePicture!.isNotEmpty
+                    ? FileImage(File(profilePicture!))
+                    : null, // No background image results in the default Flutter avatar
+                child: profilePicture == null || profilePicture!.isEmpty
+                    ? const Icon(Icons.person, size: 50) // Default icon for silhouette
                     : null,
               ),
             ),
+
             const SizedBox(height: 10),
 
             // Welcome Section

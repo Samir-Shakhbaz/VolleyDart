@@ -1,4 +1,6 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'user_storage.dart';
 import 'user.dart';
 
@@ -22,6 +24,18 @@ class _RegisterPageState extends State<RegisterPage> {
   String? _selectedMotivation;
   String? _selectedGender;
 
+  File? _selectedImage; // To store the selected profile picture
+  final ImagePicker _picker = ImagePicker();
+
+  Future<void> _pickImage() async {
+    final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
+    if (pickedFile != null) {
+      setState(() {
+        _selectedImage = File(pickedFile.path);
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,6 +53,23 @@ class _RegisterPageState extends State<RegisterPage> {
               const Text(
                 "User Registration",
                 style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 20),
+
+              // Profile Picture
+              Center(
+                child: GestureDetector(
+                  onTap: _pickImage,
+                  child: CircleAvatar(
+                    radius: 50,
+                    backgroundImage: _selectedImage != null
+                        ? FileImage(_selectedImage!)
+                        : null,
+                    child: _selectedImage == null
+                        ? const Icon(Icons.camera_alt, size: 50)
+                        : null,
+                  ),
+                ),
               ),
               const SizedBox(height: 20),
 
@@ -162,6 +193,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       height: _heightController.text,
                       homeCity: _homeCityController.text,
                       gender: _selectedGender ?? "Other",
+                      profilePicture: _selectedImage?.path, // Save the image path
                     );
 
                     // Add the user to storage

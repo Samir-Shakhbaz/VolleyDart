@@ -3,8 +3,30 @@ import 'user.dart';
 class UserStorage {
   // Temporary in-memory user storage
   static final List<User> _registeredUsers = [
-    User(username: "testUser", password: "1234", email: "test@example.com", bio: '', skillLevel: '', motivation: '', height: '', homeCity: '', gender: '', profilePicture: null),
-    User(username: "johnDoe", password: "password", email: "john.doe@example.com", bio: '', skillLevel: '', motivation: '', height: '', homeCity: '', gender: '', profilePicture: null),
+    User(
+      username: "testUser",
+      password: "1234",
+      email: "test@example.com",
+      bio: '',
+      skillLevel: '',
+      motivation: '',
+      height: '',
+      homeCity: '',
+      gender: '',
+      profilePicture: null, // No profile picture by default
+    ),
+    User(
+      username: "johnDoe",
+      password: "password",
+      email: "john.doe@example.com",
+      bio: '',
+      skillLevel: '',
+      motivation: '',
+      height: '',
+      homeCity: '',
+      gender: '',
+      profilePicture: null, // No profile picture by default
+    ),
   ];
 
   // Function to add a new user
@@ -21,5 +43,10 @@ class UserStorage {
     } catch (e) {
       return null; // Return null if user is not found
     }
+  }
+
+  // Function to list all registered users (for debugging or display purposes)
+  static List<User> getAllUsers() {
+    return _registeredUsers;
   }
 }

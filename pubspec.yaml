@@ -1,46 +1,37 @@
 name: volley_app
 description: "A new Flutter project."
 
-# The following line prevents the package from being accidentally published to
-# pub.dev using `flutter pub publish`. This is preferred for private packages.
-publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+# Prevent accidental publication to pub.dev.
+publish_to: 'none'
 
-# The following defines the version and build number for your application.
+# Version and build number for your application.
 version: 1.0.0+1
 
 environment:
-  sdk: ^3.5.4 # Ensure this matches your Dart version (check `flutter doctor` for details).
+  sdk: ">=3.5.4 <4.0.0" # Ensure compatibility with the Dart SDK.
 
 dependencies:
   flutter:
     sdk: flutter
-
   cupertino_icons: ^1.0.8 # Provides iOS-style icons.
-
-  http: ^1.2.2 # Updated to the latest compatible version for Dart SDK ^3.5.4.
-
-#  image_picker: ^0.8.5+3 # Allows selecting images from the gallery or camera.
-
-  permission_handler: ^10.2.0
-
-# Add any new dependencies below if required in your app.
+  http: ^1.2.2 # For making HTTP requests.
+  image_picker: ^0.8.7+4 # For selecting images from gallery or camera.
+  permission_handler: ^10.2.0 # For managing runtime permissions.
+  stomp_dart_client: ^2.1.0 # For STOMP WebSocket communication.
 
 dev_dependencies:
   flutter_test:
-    sdk: flutter # Used for writing unit tests for Flutter apps.
+    sdk: flutter # For writing unit tests for Flutter apps.
+  flutter_lints: ^5.0.0 # Recommended lint rules for Flutter.
 
-  flutter_lints: ^5.0.0 # Updated to the latest version. This provides recommended lint rules.
-
-# Flutter-specific configuration section.
 flutter:
-  uses-material-design: true # Ensures Material Icons are included in the project.
+  uses-material-design: true # Ensures Material Icons are included.
 
-  # Uncomment and list assets here if you have images or other static files:
-  # assets:
-  #   - images/a_dot_burr.jpeg
-  #   - images/a_dot_ham.jpeg
+  # Uncomment and add assets if needed:
+  #  assets:
+  #    - assets/default_profile.png # Include the default profile picture.
 
-  # Uncomment and configure fonts here if custom fonts are added to the app:
+  # Uncomment and configure fonts if needed:
   # fonts:
   #   - family: Schyler
   #     fonts:

@@ -7,6 +7,7 @@ import 'display_events.dart';
 import 'facilities.dart';
 import 'global_events.dart';
 import 'weather_page.dart';
+import 'chat_page.dart'; // Import ChatPage
 
 class HomePage extends StatelessWidget {
   @override
@@ -94,6 +95,15 @@ class HomePage extends StatelessWidget {
                 );
               },
               child: const Text('Weather'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => ChatPage()), // Navigate to ChatPage
+                );
+              },
+              child: const Text('Chat'), // Add Chat Button
             ),
           ],
         ),
