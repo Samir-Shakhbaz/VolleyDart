@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 
+import 'package:volley_app/reviews_page.dart';
+
+import 'claim_your_employer_profile_page.dart';
+
 class FacilityDetailsPage extends StatefulWidget {
   final Map<String, String?> facility;
 
@@ -13,6 +17,9 @@ class FacilityDetailsPage extends StatefulWidget {
 
 class _FacilityDetailsPageState extends State<FacilityDetailsPage> {
   final ImagePicker picker = ImagePicker();
+  final List<Map<String, String>> reviews = [];
+  double ratingSum = 0.0;
+  int ratingCount = 0;
 
   Future<void> _pickImage() async {
     final XFile? pickedImage = await picker.pickImage(source: ImageSource.gallery);
@@ -23,8 +30,18 @@ class _FacilityDetailsPageState extends State<FacilityDetailsPage> {
     }
   }
 
+  void _addReview(String review, double rating) {
+    setState(() {
+      reviews.add({"review": review, "rating": rating.toString()});
+      ratingSum += rating;
+      ratingCount++;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+    double averageRating = ratingCount == 0 ? 0.0 : (ratingSum / ratingCount);
+
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.facility["name"] ?? "Facility Details"),
@@ -34,6 +51,7 @@ class _FacilityDetailsPageState extends State<FacilityDetailsPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            // Existing Image Section
             GestureDetector(
               onTap: _pickImage,
               child: Container(
@@ -49,6 +67,8 @@ class _FacilityDetailsPageState extends State<FacilityDetailsPage> {
               ),
             ),
             SizedBox(height: 16),
+
+            // Facility Details
             Text("Name: ${widget.facility["name"]}", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
             SizedBox(height: 8),
             Text("Location: ${widget.facility["location"]}", style: TextStyle(fontSize: 18)),
@@ -64,12 +84,10 @@ class _FacilityDetailsPageState extends State<FacilityDetailsPage> {
             widget.facility["website"] != null
                 ? GestureDetector(
               onTap: () {
-                // Open website in browser (if URL is valid)
                 final url = widget.facility["website"]!;
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(content: Text("Opening $url")),
                 );
-                // You can use url_launcher package to open URL
               },
               child: Text(
                 "Website: ${widget.facility["website"]}",
@@ -77,9 +95,172 @@ class _FacilityDetailsPageState extends State<FacilityDetailsPage> {
               ),
             )
                 : Text("Website: N/A", style: TextStyle(fontSize: 18)),
+
+            SizedBox(height: 20),
+
+            // Ratings Section
+            Text(
+              "Average Rating: ${averageRating.toStringAsFixed(1)} / 5",
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            ),
+            SizedBox(height: 10),
+
+            // Reviews Section
+            Text(
+              "Reviews",
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            ),
+            ...reviews.map((review) {
+              return ListTile(
+                title: Text(review["review"]!),
+                subtitle: Text("Rating: ${review["rating"]} / 5"),
+              );
+            }).toList(),
+
+            // Add Review Button
+            ElevatedButton(
+              onPressed: _showReviewDialog,
+              child: Text("Add a Review"),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => AllReviewsPage(allReviews: reviews),
+                  ),
+                );
+              },
+              child: const Text("View All Reviews"),
+            ),
+
+            SizedBox(height: 20),
+
+            // Claim Profile Button
+            Center(
+              child: TextButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ClaimProfilePage(),
+                    ),
+                  );
+                },
+                child: Text(
+                  "Work here? Claim your free employer profile",
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.blue),
+                ),
+              ),
+            ),
           ],
         ),
       ),
+    );
+  }
+
+  void _showReviewDialog() {
+    final TextEditingController reviewController = TextEditingController();
+    double selectedRating = 3.0;
+
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text("Add a Review"),
+          content: StatefulBuilder(
+            builder: (context, setState) {
+              return Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  TextField(
+                    controller: reviewController,
+                    decoration: const InputDecoration(labelText: "Review"),
+                  ),
+                  SizedBox(height: 10),
+                  Text("Rating: ${selectedRating.toStringAsFixed(1)}"),
+                  Slider(
+                    min: 1,
+                    max: 5,
+                    value: selectedRating,
+                    divisions: 4,
+                    label: selectedRating.toString(),
+                    onChanged: (value) {
+                      setState(() {
+                        selectedRating = value;
+                      });
+                    },
+                  ),
+                ],
+              );
+            },
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: const Text("Cancel"),
+            ),
+            TextButton(
+              onPressed: () {
+                _addReview(reviewController.text, selectedRating);
+                Navigator.pop(context);
+              },
+              child: const Text("Submit"),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _showClaimDialog() {
+    final TextEditingController nameController = TextEditingController();
+    final TextEditingController emailController = TextEditingController();
+
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text("Claim Your Employer Profile"),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              TextField(
+                controller: nameController,
+                decoration: const InputDecoration(labelText: "Your Name"),
+              ),
+              SizedBox(height: 10),
+              TextField(
+                controller: emailController,
+                decoration: const InputDecoration(labelText: "Your Email"),
+              ),
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: const Text("Cancel"),
+            ),
+            TextButton(
+              onPressed: () {
+                final name = nameController.text;
+                final email = emailController.text;
+
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text("Request submitted for $name ($email)")),
+                );
+
+                Navigator.pop(context);
+              },
+              child: const Text("Submit"),
+            ),
+          ],
+        );
+      },
     );
   }
 }
