@@ -3,8 +3,8 @@ import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 
 import 'package:volley_app/reviews_page.dart';
-
 import 'claim_your_employer_profile_page.dart';
+import 'map_package.dart'; // Updated MapPage with dynamic geocoding
 
 class FacilityDetailsPage extends StatefulWidget {
   final Map<String, String?> facility;
@@ -51,7 +51,7 @@ class _FacilityDetailsPageState extends State<FacilityDetailsPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Existing Image Section
+            // Image Section
             GestureDetector(
               onTap: _pickImage,
               child: Container(
@@ -71,8 +71,30 @@ class _FacilityDetailsPageState extends State<FacilityDetailsPage> {
             // Facility Details
             Text("Name: ${widget.facility["name"]}", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
             SizedBox(height: 8),
+
             Text("Location: ${widget.facility["location"]}", style: TextStyle(fontSize: 18)),
             SizedBox(height: 8),
+
+            ElevatedButton(
+              onPressed: () {
+                final location = widget.facility["location"];
+                if (location != null) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => MapPage(location: location), // Pass dynamic location
+                    ),
+                  );
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text("Location not available!")),
+                  );
+                }
+              },
+              child: const Text("Show on Map"),
+            ),
+            SizedBox(height: 16),
+
             Text("Surface: ${widget.facility["surface"]}", style: TextStyle(fontSize: 18)),
             SizedBox(height: 8),
             Text("Courts: ${widget.facility["courts"]}", style: TextStyle(fontSize: 18)),
@@ -81,6 +103,7 @@ class _FacilityDetailsPageState extends State<FacilityDetailsPage> {
             SizedBox(height: 8),
             Text("Rental: ${widget.facility["rental"] ?? 'N/A'}", style: TextStyle(fontSize: 18)),
             SizedBox(height: 8),
+
             widget.facility["website"] != null
                 ? GestureDetector(
               onTap: () {
@@ -95,7 +118,6 @@ class _FacilityDetailsPageState extends State<FacilityDetailsPage> {
               ),
             )
                 : Text("Website: N/A", style: TextStyle(fontSize: 18)),
-
             SizedBox(height: 20),
 
             // Ratings Section
@@ -205,55 +227,6 @@ class _FacilityDetailsPageState extends State<FacilityDetailsPage> {
             TextButton(
               onPressed: () {
                 _addReview(reviewController.text, selectedRating);
-                Navigator.pop(context);
-              },
-              child: const Text("Submit"),
-            ),
-          ],
-        );
-      },
-    );
-  }
-
-  void _showClaimDialog() {
-    final TextEditingController nameController = TextEditingController();
-    final TextEditingController emailController = TextEditingController();
-
-    showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          title: const Text("Claim Your Employer Profile"),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              TextField(
-                controller: nameController,
-                decoration: const InputDecoration(labelText: "Your Name"),
-              ),
-              SizedBox(height: 10),
-              TextField(
-                controller: emailController,
-                decoration: const InputDecoration(labelText: "Your Email"),
-              ),
-            ],
-          ),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              child: const Text("Cancel"),
-            ),
-            TextButton(
-              onPressed: () {
-                final name = nameController.text;
-                final email = emailController.text;
-
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text("Request submitted for $name ($email)")),
-                );
-
                 Navigator.pop(context);
               },
               child: const Text("Submit"),

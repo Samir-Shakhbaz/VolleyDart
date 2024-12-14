@@ -14,10 +14,12 @@ dependencies:
   flutter:
     sdk: flutter
   cupertino_icons: ^1.0.8 # Provides iOS-style icons.
-  http: ^1.2.2 # For making HTTP requests.
+  http: ^0.13.6 # For making HTTP requests.
   image_picker: ^0.8.7+4 # For selecting images from gallery or camera.
   permission_handler: ^10.2.0 # For managing runtime permissions.
   stomp_dart_client: ^2.1.0 # For STOMP WebSocket communication.
+  flutter_map: ^4.0.0 # For displaying OpenStreetMap tiles.
+  latlong2: ^0.8.1 # Provides LatLng support for flutter_map.
 
 dev_dependencies:
   flutter_test:
@@ -43,3 +45,4 @@ flutter:
   #       - asset: fonts/TrajanPro.ttf
   #       - asset: fonts/TrajanPro_Bold.ttf
   #         weight: 700
+

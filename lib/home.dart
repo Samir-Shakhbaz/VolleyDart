@@ -7,9 +7,38 @@ import 'display_events.dart';
 import 'facilities.dart';
 import 'global_events.dart';
 import 'weather_page.dart';
-import 'chat_page.dart'; // Import ChatPage
+import 'chat_page.dart';
+import 'services/geo_location_service.dart'; // Import GeoService
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
+  @override
+  _HomePageState createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  final GeoService _geoService = GeoService();
+  Map<String, dynamic>? _locationData;
+  String? _error;
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchLocation();
+  }
+
+  void _fetchLocation() async {
+    try {
+      final data = await _geoService.fetchLocation();
+      setState(() {
+        _locationData = data;
+      });
+    } catch (e) {
+      setState(() {
+        _error = e.toString();
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,6 +49,19 @@ class HomePage extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            if (_locationData != null) ...[
+              Text(
+                "Location: ${_locationData!['city']}, ${_locationData!['country']}",
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+              ),
+            ] else if (_error != null) ...[
+              Text(
+                "Error fetching location: $_error",
+                style: TextStyle(color: Colors.red),
+              ),
+            ] else ...[
+              CircularProgressIndicator(),
+            ],
             ElevatedButton(
               onPressed: () {
                 Navigator.push(
