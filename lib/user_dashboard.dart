@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'availability_page.dart'; // Import AvailabilityPage
 
 class UserDashboard extends StatelessWidget {
   final String username;
@@ -39,13 +40,12 @@ class UserDashboard extends StatelessWidget {
                 radius: 50,
                 backgroundImage: profilePicture != null && profilePicture!.isNotEmpty
                     ? FileImage(File(profilePicture!))
-                    : null, // No background image results in the default Flutter avatar
+                    : null,
                 child: profilePicture == null || profilePicture!.isEmpty
-                    ? const Icon(Icons.person, size: 50) // Default icon for silhouette
+                    ? const Icon(Icons.person, size: 50)
                     : null,
               ),
             ),
-
             const SizedBox(height: 10),
 
             // Welcome Section
@@ -55,6 +55,20 @@ class UserDashboard extends StatelessWidget {
             ),
             const SizedBox(height: 10),
             Text("Email: $email"),
+            const Divider(),
+
+            // "Set Availability" Button
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => AvailabilityPage(events: events),
+                  ),
+                );
+              },
+              child: const Text("Set Availability"),
+            ),
             const Divider(),
 
             // Profile Section

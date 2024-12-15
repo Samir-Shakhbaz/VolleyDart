@@ -2,22 +2,22 @@ class User {
   final String username;
   final String email;
   final String password;
-  final String bio;
-  final String skillLevel;
-  final String motivation;
-  final String height;
+  late final String bio; // Optional, default to "No bio provided"
+  late final String skillLevel; // Optional, default to "Beginner"
+  late final String motivation; // Optional, default to "Not specified"
+  late final String height; // Optional, default to "Not specified"
   final String homeCity;
   final String gender;
-  final String? profilePicture; //OPTIONAL
+  final String? profilePicture; // Optional
 
   User({
     required this.username,
     required this.email,
     required this.password,
-    required this.bio,
-    required this.skillLevel,
-    required this.motivation,
-    required this.height,
+    this.bio = "No bio provided",
+    this.skillLevel = "Beginner",
+    this.motivation = "Not specified",
+    this.height = "Not specified",
     required this.homeCity,
     required this.gender,
     this.profilePicture,
