@@ -11,7 +11,7 @@ android {
     ndkVersion = "23.1.7779620" // Ensure compatibility with your setup
 
     defaultConfig {
-        applicationId = "com.example.volley_app"
+        applicationId = "com.example.volley_app" // Matches your AndroidManifest.xml
         minSdk = 21 // Minimum supported Android SDK
         targetSdk = 34 // Target Android SDK 34
         versionCode = 1 // Increment this for each release
@@ -28,8 +28,13 @@ android {
     }
 
     buildTypes {
+        debug {
+            applicationIdSuffix ".debug" // Optional suffix for debug builds
+        }
         release {
-            signingConfig = signingConfigs.debug // Replace with release signing config if applicable
+            minifyEnabled false // Disable ProGuard for now
+            shrinkResources false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
 }
@@ -39,5 +44,5 @@ flutter {
 }
 
 dependencies {
-    implementation "androidx.fragment:fragment:1.8.5" // Downgrade to a stable version
+    implementation "androidx.fragment:fragment:1.6.1" // Latest stable version
 }

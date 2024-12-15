@@ -20,6 +20,7 @@ dependencies:
   stomp_dart_client: ^2.1.0 # For STOMP WebSocket communication.
   flutter_map: ^4.0.0 # For displaying OpenStreetMap tiles.
   latlong2: ^0.8.1 # Provides LatLng support for flutter_map.
+  url_launcher: ^6.3.1
 
 dev_dependencies:
   flutter_test:

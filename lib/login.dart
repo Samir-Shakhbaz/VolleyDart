@@ -1,15 +1,11 @@
 import 'package:flutter/material.dart';
-import 'user_storage.dart';
-import 'user.dart';
-import 'user_dashboard.dart';
-import 'package:volley_app/services/auth_service.dart';
+import 'authenticated_page.dart'; // Replace with your actual AuthenticatedPage import
 
 class LoginPage extends StatelessWidget {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  final AuthService authService = AuthService('http://10.0.2.2:8080');
 
   @override
   Widget build(BuildContext context) {
@@ -70,12 +66,6 @@ class LoginPage extends StatelessWidget {
                               borderRadius: BorderRadius.circular(12.0),
                             ),
                           ),
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return "Please enter your username";
-                            }
-                            return null;
-                          },
                         ),
                         const SizedBox(height: 16),
 
@@ -90,12 +80,6 @@ class LoginPage extends StatelessWidget {
                             ),
                           ),
                           obscureText: true,
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return "Please enter your password";
-                            }
-                            return null;
-                          },
                         ),
                         const SizedBox(height: 24),
 
@@ -104,44 +88,24 @@ class LoginPage extends StatelessWidget {
                           width: double.infinity,
                           child: ElevatedButton(
                             style: ElevatedButton.styleFrom(
-                              padding: const EdgeInsets.symmetric(vertical: 12.0), backgroundColor: Colors.blueAccent,
+                              padding: const EdgeInsets.symmetric(vertical: 12.0),
+                              backgroundColor: Colors.blueAccent,
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(12.0),
                               ),
                             ),
-                            onPressed: () async {
-                              if (_formKey.currentState!.validate()) {
-                                try {
-                                  final isLoggedIn = await authService.login(
-                                    _usernameController.text,
-                                    _passwordController.text,
-                                  );
-                                  if (isLoggedIn) {
-                                    Navigator.pushReplacement(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) => UserDashboard(
-                                          username: _usernameController.text,
-                                          email: "user@example.com",
-                                          locations: ["Location1", "Location2"],
-                                          facilities: ["Facility1", "Facility2"],
-                                          eventNames: ["Event1", "Event2"],
-                                          events: [],
-                                          profilePicture: "",
-                                        ),
-                                      ),
-                                    );
-                                  } else {
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      const SnackBar(content: Text("Invalid username or password")),
-                                    );
-                                  }
-                                } catch (e) {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(content: Text("Error: $e")),
-                                  );
-                                }
-                              }
+                            onPressed: () {
+                              // Navigate directly to AuthenticatedPage
+                              Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => AuthenticatedPage(
+                                    username: _usernameController.text.isEmpty
+                                        ? "Guest"
+                                        : _usernameController.text,
+                                  ),
+                                ),
+                              );
                             },
                             child: const Text("Login", style: TextStyle(fontSize: 18)),
                           ),
