@@ -1,48 +1,52 @@
 plugins {
     id "com.android.application"
     id "kotlin-android"
-    id "dev.flutter.flutter-gradle-plugin"
+    id "dev.flutter.flutter-gradle-plugin" // Flutter Gradle Plugin
 }
 
 android {
-    namespace = "com.example.volley_app"
-    compileSdk = 34 // Target Android SDK 34
+    namespace = "com.example.volley_app" // Package namespace
+    compileSdk = 34 // Target Android SDK version
 
-    ndkVersion = "23.1.7779620" // Ensure compatibility with your setup
+    ndkVersion = "23.1.7779620" // Ensure compatibility with native libraries
 
     defaultConfig {
-        applicationId = "com.example.volley_app" // Matches your AndroidManifest.xml
-        minSdk = 21 // Minimum supported Android SDK
-        targetSdk = 34 // Target Android SDK 34
-        versionCode = 1 // Increment this for each release
-        versionName = "1.0" // Update for release versions
+        applicationId = "com.example.volley_app" // Application ID
+        minSdk = 23 // Updated to match `FlutterFragmentActivity` requirements
+        targetSdk = 34 // Target the latest SDK
+        versionCode = 1 // Increment for every release
+        versionName = "1.0" // Application version
     }
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
+        sourceCompatibility = JavaVersion.VERSION_17 // Use Java 17
+        targetCompatibility = JavaVersion.VERSION_17 // Use Java 17
     }
 
     kotlinOptions {
-        jvmTarget = "17" // Use JDK 17 compatibility for Kotlin
+        jvmTarget = "17" // Use JDK 17 for Kotlin
     }
 
     buildTypes {
         debug {
-            applicationIdSuffix ".debug" // Optional suffix for debug builds
+            applicationIdSuffix ".debug" // Append `.debug` for debug builds
         }
         release {
-            minifyEnabled false // Disable ProGuard for now
-            shrinkResources false
+            minifyEnabled false // Disable code minification for easier debugging
+            shrinkResources false // Disable resource shrinking for release
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
 }
 
 flutter {
-    source = "../.." // Retain Flutter source directory
+    source = "../.." // Flutter module directory
 }
 
 dependencies {
     implementation "androidx.fragment:fragment:1.6.1" // Latest stable version
+    implementation "androidx.activity:activity-ktx:1.8.0" // Optional, enhances Activity APIs
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:1.8.10" // Kotlin standard library
+    implementation "androidx.core:core-ktx:1.12.0" // Core KTX for Android utilities
 }
+
