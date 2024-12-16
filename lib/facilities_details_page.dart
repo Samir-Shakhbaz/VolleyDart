@@ -3,6 +3,7 @@ import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 
 import 'package:url_launcher/url_launcher.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'map_package.dart'; // Updated MapPage with dynamic geocoding
 import 'claim_your_employer_profile_page.dart';
 
@@ -68,16 +69,21 @@ class _FacilityDetailsPageState extends State<FacilityDetailsPage> {
                     decoration: const InputDecoration(labelText: "Review"),
                   ),
                   SizedBox(height: 10),
-                  Text("Rating: ${selectedRating.toStringAsFixed(1)}"),
-                  Slider(
-                    min: 1,
-                    max: 5,
-                    value: selectedRating,
-                    divisions: 4,
-                    label: selectedRating.toString(),
-                    onChanged: (value) {
+                  const Text("Rating:"),
+                  RatingBar.builder(
+                    initialRating: selectedRating,
+                    minRating: 1,
+                    direction: Axis.horizontal,
+                    allowHalfRating: false,
+                    itemCount: 5,
+                    itemSize: 30,
+                    itemBuilder: (context, _) => Icon(
+                      Icons.star,
+                      color: Colors.amber,
+                    ),
+                    onRatingUpdate: (rating) {
                       setState(() {
-                        selectedRating = value;
+                        selectedRating = rating;
                       });
                     },
                   ),
