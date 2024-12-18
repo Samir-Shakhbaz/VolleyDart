@@ -12,7 +12,7 @@ android {
 
     defaultConfig {
         applicationId = "com.example.volley_app" // Application ID
-        minSdk = 23 // Updated to match `FlutterFragmentActivity` requirements
+        minSdk = 24 // Updated to match `FlutterFragmentActivity` requirements
         targetSdk = 34 // Target the latest SDK
         versionCode = 1 // Increment for every release
         versionName = "1.0" // Application version
